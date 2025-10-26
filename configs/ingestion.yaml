@@ -1,0 +1,50 @@
+symbols: [BTCUSDT, SOLUSDT, ETHUSDT]
+months: ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06"]
+
+paths:
+  raw_dir: "data/ticks_raw"
+  clean_dir: "data/ticks_clean"
+  ohlcv_1m_dir: "data/ohlcv_1m"
+  qa_dir: "reports/qa"
+  filename_template: "{symbol}-ticks-{month}.csv"   # matches your files
+
+raw_format:
+  # If any of these are wrong/missing, we will autodetect.
+  timestamp_field: "ts"           # common alternatives: timestamp, time, datetime, event_time
+  timestamp_unit: "auto"          # "s" | "ms" | "iso" | "auto"
+  price_field: "price"            # alternatives: p, last_price
+  qty_field: "qty"                # alternatives: size, quantity, vol
+  side_field: "is_buyer_maker"    # optional; alternatives: is_buyer_maker, buyer_is_maker, taker_side
+
+cleaning:
+  autodetect_headers: true
+  drop_na: true
+  dedupe: true
+  sort: true
+  clip_price:
+    enabled: true
+    pct_low: 0.0005
+    pct_high: 0.0005
+  min_qty: 0.0
+
+ohlcv:
+  timeframe: "1min"
+  closed: "left"
+  label: "1min"
+  add_buy_maker_vol: true
+
+io:
+  parquet_compression: "zstd"
+  parquet_compression_level: 6
+
+# Info-bar config for event building
+info_bars:
+  out_dir: "data/info_bars"
+  build: ["tick"]
+
+# Labeling defaults for triple-barrier
+labels:
+  ewma_span_min: 60
+  tp_mult: 3.0
+  sl_mult: 3.0
+  horizon_secs: 1800

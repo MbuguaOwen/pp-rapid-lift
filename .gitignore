@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+
+# Data & reports
+data/ticks_clean/
+data/ohlcv_1m/
+reports/qa/*.html
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large files and artifacts (prevent accidental commits)
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.bz2
+*.xz
+*.7z
+*.rar
+
+# Media (often huge)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+*.flac
+
+# Data formats (commonly large; keep only if needed)
+data/**/*.csv
+data/**/*.tsv
+data/**/*.jsonl
+data/**/*.parquet
+data/**/*.feather
+data/**/*.orc
+datasets/**
+downloads/**
+outputs/**
+artifacts/**
+checkpoints/**
+models/**
+
+# ML/analytics binaries and checkpoints
+*.h5
+*.hdf5
+*.h5ad
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pb
+*.tflite
+*.pkl
+*.joblib
+
+# Logs and caches
+*.log
+.cache/
+cache/
+tmp/
+temp/
+logs/
+
+# IDE/project files
+.vscode/
+.idea/

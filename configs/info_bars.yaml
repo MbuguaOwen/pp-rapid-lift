@@ -1,0 +1,46 @@
+# Stage 2 — Information Bars (consumes CLEAN ticks)
+io:
+  # Primary monthly clean-ticks path (Parquet):
+  tick_glob: "data/ticks_clean/{sym}/{year_month}.parquet"
+  # Where to write bars:
+  out_dir: "data/info_bars"
+  # Skip files that already exist unless --force
+  skip_existing: true
+  # NEW: quarantine months here; they will be skipped
+  month_blacklist: ["2025-07"]   # <— you can remove later if you fix the source
+
+schema:
+  # We'll accept either a DatetimeIndex or any of these columns.
+  time_col_candidates: ["ts","timestamp","time","t","date","datetime","index"]
+  price_col_candidates: ["price","p"]
+  qty_col_candidates: ["qty","q","size","amount","volume"]
+  side_col_candidates: ["side"]               # optional
+  buyer_maker_col_candidates: ["is_buyer_maker","buyer_maker","buy_maker","bm"]  # <-- add buy_maker
+  epoch_unit: "ms"
+  timezone: "UTC"
+
+targets:
+  mode: "ewma"            # "ewma" or "fixed"
+  bars_per_hour: 60
+  ewma_span_minutes: 60
+  fixed:
+    dollar_per_bar: null
+    volume_per_bar: null
+    n_per_bar: null
+
+imbalance:
+  method: "ewm_std"       # or "sqrtN"
+  span_ticks: 2000
+  k: 2.0
+  # NEW autotune section
+  autotune:
+    enabled: true
+    reference: "tick"         # compare imbalance rows to this bar type's rows
+    max_multiplier: 5.0       # try to keep imbalance <= 5× reference
+    scale_factor: 1.8         # multiply k each pass if too many rows
+    max_passes: 8             # cap the number of enlargements
+
+runtime:
+  chunk_days: null
+  max_rows_in_mem: 80000000
+  dry_run: false

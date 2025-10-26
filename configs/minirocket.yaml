@@ -1,0 +1,27 @@
+data:
+  input_path: data/bars_dollar.parquet
+  symbol: BTCUSDT
+  window: 256
+  step: 1
+  features:
+    use_log_returns: true
+    add_vol_channel: true
+    vol_window: 32
+label:
+  type: triple_barrier
+  horizon_seconds: 3600
+  horizon:
+  tp_mult: 2.0
+  sl_mult: 1.5
+  timeout: 240
+cv:
+  n_splits: 5
+  embargo: 0
+  embargo_coeff_window: 0.25
+  embargo_coeff_horizon: 0.5
+model:
+  head: logreg
+  C: 1.0
+  class_weight: balanced
+output:
+  preds_csv: outputs/minirocket_cv_preds.csv
