@@ -36,7 +36,7 @@ imbalance:
   autotune:
     enabled: true
     reference: "tick"         # compare imbalance rows to this bar type's rows
-    max_multiplier: 5.0       # try to keep imbalance <= 5× reference
+    max_multiplier: 2.0       # try to keep imbalance <= 5× reference
     scale_factor: 1.8         # multiply k each pass if too many rows
     max_passes: 8             # cap the number of enlargements
 
