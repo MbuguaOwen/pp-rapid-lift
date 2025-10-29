@@ -1,0 +1,16 @@
+io:
+  tick_glob: "data/ticks_clean/{sym}/{year_month}.parquet"
+  out_dir: "data/time_bars_1min"
+  skip_existing: true
+
+schema:
+  time_col_candidates: ["ts","timestamp","time","t","date","datetime","index"]
+  price_col_candidates: ["price","p"]
+  qty_col_candidates: ["qty","q","size","amount","volume"]
+  buyer_maker_col_candidates: ["is_buyer_maker","buyer_maker","buy_maker","bm"]
+  timezone: "UTC"
+  epoch_unit: "ms"
+
+bars:
+  freq: "1min"
+

@@ -1,0 +1,19 @@
+io:
+  windows_root: "data/micro_windows"
+  out_root: "data/embeddings"
+  bar_type: "dollar"
+  skip_existing: true
+
+train:
+  epochs: 10
+  batch_size: 128
+  lr: 1.0e-3
+  emb_dim: 128
+  proj_dim: 128
+  temperature: 0.2
+  mask_ratio: 0.15
+  jitter_std: 0.01
+  device: "cpu"
+
+runtime:
+  normalize_before_embed: false

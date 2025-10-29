@@ -89,3 +89,15 @@ Troubleshooting
 ```powershell
 python scripts\summarize_info_bars.py --symbol BTCUSDT
 ```
+## Stage 3 — Micro Feature Windows (from Information Bars)
+**Inputs:** `data/info_bars/<SYM>/<bar_type>/<YYYY-MM>.parquet` (index = t_last, UTC)  
+**Outputs:** `data/micro_windows/<SYM>/<bar_type>/<YYYY-MM>/{windows.npz, index.parquet}`  
+Per-window z-score normalization over channels; features include returns, ranges, order-flow ratios, and EWM signals computed on **bar-count**.
+
+```powershell
+$env:PYTHONPATH = "$PWD"
+python scripts\make_micro_windows.py `
+  --config "configs/micro_windows.yaml" `
+  --symbols BTCUSDT `
+  --months 2025-01 2025-02 2025-03 2025-04 2025-05 2025-06
+```

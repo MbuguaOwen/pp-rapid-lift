@@ -1,0 +1,27 @@
+io:
+  aligned_root: "data/aligned"
+  embed_root: "data/embeddings"
+  bar_type: "dollar"
+  symbols: ["BTCUSDT"]
+  months: ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06"]
+
+task:
+  horizons: [15,30,60]
+  label_scheme: "onevsrest"
+  direction: "up"                 # "up" | "down" | "trinary"
+  use_regime_as: "feature"        # feature | filter | weight
+  min_votes: 2
+  regime_weight_alpha: 0.5
+
+train:
+  epochs: 12
+  batch_size: 512
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  topk: [0.1,0.2,0.3]
+  device: "auto"
+  seed: 13
+
+model:
+  head_hidden: 0                  # 0 = linear
+

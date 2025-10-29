@@ -1,0 +1,28 @@
+io:
+  bar_type: "dollar"                # dollar|volume|tick|imbalance
+  info_root: "data/info_bars"
+  out_root: "data/micro_windows"
+  skip_existing: true
+
+build:
+  window_len: 256
+  stride: 8
+  dtype: "float32"
+  features:
+    - "logret_close"
+    - "hl_range_norm"
+    - "oc_spread_norm"
+    - "vol_per_trade"
+    - "bm_share"
+    - "ewm_logret_16"
+    - "ewm_abs_logret_16"
+  ewm_spans:
+    logret: 16
+
+norm:
+  method: "zscore"                  # none|zscore|robust
+  eps: 1.0e-8
+
+runtime:
+  months_per_job: 1
+
