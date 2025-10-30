@@ -2,24 +2,30 @@ bars_glob: "data/time_bars_1min/*/2025-0[16].parquet"   # forward slashes are cr
 price_col: "close"
 # If your labeler needs to know the index name, set it (only if used by your script):
 time_index_col: "t_last"
-horizons_min: [15, 60, 240]
-pt_mult: 1.5
-sl_mult: 1.0
-max_horizon_min: 240
 tz: "UTC"
+
+# Labeling mode
+mode: triple_barrier
+
+# Triple-barrier label configuration (new keys)
+vol_mode: atr                # atr | ewm_std
+atr_window: 200              # ATR window length (bars)
+atr_ma: ema                  # ema | sma
+scale_with_sqrt_h: true      # scale barrier with sqrt(H)
+
+# Horizons to label (minutes)
+horizons_min: [120, 240, 480]
+
+# Per-horizon multipliers (dict) or scalar fallback
+k_pt: {120: 1.25, 240: 1.125, 480: 1.125}
+k_sl: {120: 0.25, 240: 0.25, 480: 0.25}
+timeout_label: 0
 
 io:
   timebar_root: "data/time_bars_1min"
   out_dir: "data/labels_1min"
   skip_existing: true
 
-triple_barrier:
-  horizons: [15, 30, 60]
-  up_mult: 100.0
-  dn_mult: 20.0
-  vol_span: 60
-  min_return: 0.0
-  label_scheme: "onevsrest"   # onevsrest|trinary
 
 regime:
   ema_spans: [30, 60, 120]
@@ -31,7 +37,7 @@ cv:
   embargo_minutes: 60
 
 align:
-  join_horizon: 30            # choose one of horizons for primary y
+  join_horizon: 240           # choose one of horizons for primary y
   join_mode: "floor_minute"   # floor micro t_last to minute then join
   regime_filter:
     mode: "feature"           # feature|filter
