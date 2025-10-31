@@ -1,11 +1,11 @@
 io:
-  bar_type: "dollar"                # dollar|volume|tick|imbalance
-  info_root: "data/info_bars"
-  out_root: "data/micro_windows"
-  skip_existing: true
+  bar_type: "dollar"                # dollar|volume|tick|imbalance (for info_bars)
+  info_root: "data/info_bars"       # used when source=info_bars
+  out_dir: "data/micro_windows"
+  skip_existing: false
 
 build:
-  window_len: 256
+  window_len: 256                   # used indirectly via rolling/ewm history
   stride: 8
   dtype: "float32"
   features:
@@ -20,9 +20,8 @@ build:
     logret: 16
 
 norm:
-  method: "zscore"                  # none|zscore|robust
+  method: "none"                    # Stage-3 raw; we standardize in merge step
   eps: 1.0e-8
 
 runtime:
   months_per_job: 1
-

@@ -21,10 +21,13 @@ def atr(df: pd.DataFrame, window: int = 200, ma: str = "ema") -> pd.Series:
     df must have columns: open, high, low, close. UTC DatetimeIndex.
     """
     prev_close = df["close"].shift(1)
+    hi = df["high"]
+    lo = df["low"]
+    # keep Series semantics (avoid numpy reductions returning ndarray)
     tr = pd.concat([
-        df["high"] - df["low"],
-        (df["high"] - prev_close).abs(),
-        (df["low"] - prev_close).abs()
+        (hi - lo).abs(),
+        (hi - prev_close).abs(),
+        (lo - prev_close).abs(),
     ], axis=1).max(axis=1)
 
     if str(ma).lower() == "ema":

@@ -40,7 +40,8 @@ def assemble_matrix(shards, horizons, direction, use_regime_as, min_votes, regim
         elif use_regime_as=="weight":
             w = w * (0.5 + float(regime_weight_alpha) * M["vote_ratio"].to_numpy(dtype=np.float32))
 
-        X_list.append(X); Y_list.append(Y); W_list.append(w); META_list.append(M[["fold","is_train","is_valid"]])
+        # Keep metadata aligned with X/Y/W rows including row_id for downstream evaluation dumps
+        X_list.append(X); Y_list.append(Y); W_list.append(w); META_list.append(M[["row_id","fold","is_train","is_valid"]])
     if not X_list: raise RuntimeError("No shards found")
     X = np.concatenate(X_list, axis=0)
     Y = np.concatenate(Y_list, axis=0)
@@ -57,4 +58,3 @@ def class_weights_per_horizon(Y, mask=None):
         p = y.mean() if len(y)>0 else 0.5
         cw[h] = 1.0 / max(p, 1e-6)
     return (cw / cw.mean()).astype(np.float32)
-
